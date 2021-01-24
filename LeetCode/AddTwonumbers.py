@@ -4,7 +4,7 @@
     거꾸로 저장된 값들을 더해 다시 거꾸로 저장하는 문제.  
     https://leetcode.com/problems/add-two-numbers/
 
-- fail to solve (난이도 : ★★★☆☆)
+- fail to solve (official: Medium / for me: ★★★☆☆)
     부족했던 부분 : 
         1) python에서 linked list 처음 다루어 본 점. 
         2) call by object-refernce에 대한 개념이 불명확했음. 
