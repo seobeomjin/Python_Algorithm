@@ -1,6 +1,10 @@
 '''
+★★★
+1) 요약 
 #베스트앨범 # Hash #Lv3
 베스트 앨범 : 장르별로 가장 많이 재생된 곡들을 상위 두곡씩 뽑아 베스트앨범 구성 
+
+출처: 프로그래머스 코딩 테스트 연습, https://programmers.co.kr/learn/challenges
 '''
 
 def Q4_solution(genres, plays):
