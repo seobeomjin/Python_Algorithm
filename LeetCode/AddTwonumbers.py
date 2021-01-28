@@ -33,8 +33,8 @@ class Solution:
         carry = 0 
 
         while any([l1, l2, carry]):
-            val1 = (l1.val if l1 else None)
-            val2 = (l2.val if l2 else None)
+            val1 = (l1.val if l1 else 0)
+            val2 = (l2.val if l2 else 0)
             carry, out = divmod(val1+val2+carry, 10)
 
             result_tail.next = ListNode(out)
