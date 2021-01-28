@@ -24,7 +24,7 @@ class Solution:
     erase a subarray containing unique elements
     equal to the sum of its elements
 
-    그러니까, 배열 안에서, 겹치지 않는 연속되는 값들의 최고 합을 구하라는 말 
+    배열 안에서 겹치지 않는 연속되는 값들의 최고 합을 구하라 
     """
     def maximumUniqueSubarray(self, nums: List[int]) -> int:
         
