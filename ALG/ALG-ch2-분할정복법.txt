@@ -1,0 +1,110 @@
+ch2 - 분할 정복법 
+---
+분할, 정복, 통합 
+이분검색 
+합병정렬1 
+합병정렬2 
+---
+분할 / 정복 / 통합  (tow-down 접근방법) 
+	해결이 쉽게 문제를 여러 개의 작은 부분으로 나누기 
+	작은 문제들을 해결하기 
+	(필요 시) 해결된 답을 모으기 
+이분 검색 (binary search) 
+	재귀 알고리즘 (이해에 쉬움) 
+		꼬리 재귀호출 - 활성 레코드 스택에 상태를 저장해야 함. 
+		반복 알고리즘으로 구현 가능. 상수적으로 더 빠름. 
+	worst case 시간복잡도 분석 
+		1) n = 2^k개인 경우 
+			반복대입법 (reccurence relation으로 표현된) 
+			추정 후 증명방법 (수학적귀납법 활용) (대체방법(sunstitution)) 
+		2) 일반적인 경우, 홀짝 나눠서 계산 -> 데이터를 더 더해서 n=2^k 맞춰 계산
+합병 정렬 (merge sort)
+	- n 개 비내림차순으로 정렬 / input: 정수n, 크기n인 배열S / output 비내림차순 배열S
+	mergesort : 반으로 나누고, 배열 복사해서 mergesort 또 실행, 맨 마지막에 merge
+	merge : 입력으로 들어온 두 배열을 정렬시킴, 두 정렬의 아이템을 비교하며 작은값 先
+	           하나의 인덱스가 끝에 도달하면, 나머지 값 다 붙여 
+	시간복잡도 분석 - 최악의 경우 
+	공간복잡도 분석 - merge sort 재귀호출 하며, 2*(n/2) 개만큼 필요 매번
+
+	mergesort2 : 반으로 나누되, 그 인덱스값만 재귀의 input으로 가짐. 
+	merge2 : 새로운 배열 U를 만들고, 거기에 기존의 배열 S의 크기를 
+		index에 따라 비교해서 U에 넣어줘. 그리고 S에 마지막에 복사해서 return  
+floor / ceiling function 
+
+빠른 정렬 (quick sort (=partition exchange sort)) 
+	quicksort(low, high) #pseudo code  
+		partition(low, high, pivot) 
+		quicksort(low, pivot-1) 
+		quicksort(pivot+1, high)
+	
+	partition에서는, 가장 low를 pivot으로 정하고, [low+1, high] 까지 pivot과 비교하여 
+	pivot보다 작으면 j(low에서 시작,++)에 넣어주는 형식으로 진행된다. 
+	high까지 for문이 다 돌면, j 자리가 pivot_index가 되고, S[low] 와 S[pivot_index]를 교환한다. 
+	그럼 pivot index를 기준으로 왼쪽은 더 작은 값이, 오른쪽은 더 큰 값이 unstable하게 정렬된다.  
+	  
+	최악의 경우 - 비내림차순으로 정렬되어 있는 경우
+		T(n) = T(0) + T(n-1) + n-1
+		재현식을 풀면, T(n) = n(n-1)/2
+		이를 수학적 증명(참고) 
+	평균의 경우 
+		A(n) = sigma(p=1~n){1/n*(A(p-1)+A(n-p))} + n-1 ~ 유도 ... 
+		A(n) = ∈Θ(nlgn)
+		평균적으로는 매우 우수한 시간의 알고리즘이다. 
+	Best 경우 
+		T(n) = 2T(n/2)+n-1 ∈ Θ(nlgn) 
+		n/2 사이즈 문제 2개를 푸는 시간 + partition할 때 걸리는 시간
+
+행렬곱셈 (NxN 의 두행렬의 곱셈) 
+	일반적인 경우 
+		 시간 복잡도 (8번의 곱셈, 4번의 덧셈) 
+			곱셈연산 기준 n^3
+			덧셈뺄셈 기준 n^3 - n^2 
+	쉬트라센 알고리즘 (7번의 곱셈, 18번의 덧뺄셈) 
+		if n <= threshold 
+			단순계산 
+		else 
+			A -> 부분행렬 생성 / B-> 부분행렬 생성 
+			strassen(n/2, 부분행렬1, 부분행렬2, M1) 
+			... 
+		시간 복잡도 
+			곱셈연산 기준 n^2.81 
+			덧셈뺼셈 기준 6n^2.81 - 6n^2 
+
+큰 정수 계산법 
+	큰 정수를 1차시간에 계산 가능하도록 표현 
+	u *10^m / u divide 10^m / u mod 10^m  
+	u(n자리 수) = x(ceil(n/2))자리수)*10^m(floor(n/2))자리수) + y(floor(n/2))자리수) / v = w*10^m + z 
+	u*v = (x*10^m + y) * (w*10^m + z) 
+	     = xw * 10^2*m + (xz+wy)*10^m + yz 
+	
+	x, y, w, z 구해서 return prod() + prod() + prod() + prod() 
+	시간복잡도가 n^2이라 향상 X 
+	
+	개선된 알고리즘 prod2 
+	r = (x+y)*(w+z)=xw+(xz+yw)+yz 계산하고 , 여기서  xz+yw 는 r – xw – yz 로 계산 -> 총 곱셈 3회  
+	시간복잡도 n^1.53 
+
+임계값 설정 
+	문제가 적당히 작아지면, 재귀의 오버헤드가 커지기 때문에 다른 알고리즘을 사용하는 게 효율적 
+	적절한 임계값을 찾아야 한다. 
+	mergesort2 & exchange sort 사이의 임계값 구하기 예시 
+		t>=n 일 때, mergesort2 / t<n 일 때, exchange sort 를 사용하게 등치를 짜는 것이 중요 
+
+분할정복을 사용하지 말아야 하는 경우 
+	1) 2개 이상의 조각으로 분할 && 분할된 부분의 크기가 n에 가까운 경우 -> exponential 
+	2) n개의 조각으로 분할 && 분할된 크기가 n/c인 경우 (c는 상수) -> n^(lgn) 
+
+도사 정리 ( The Master Theorem )  
+	어떤 재현식이 주어졌을 때, 공식을 통해 복잡도를 쉽게 유도할 수 있는 정리 
+	T(n) = aT(n/b) + f(n) 
+	예시 EX 
+
+--- 
+( 문제 여기다 만들지 말고, 공책에 옮겨 적어라) 
+
+EX) n = 2^k일 때, 이분검색의 최악의 경우 시간복잡도를 구하시오. (반복대입법을 사용하시오)  
+EX) n = 2^k일 때, 이분검색의 최악의 경우 시간복잡도를 구하시오. (substitution을 사용하시오)  
+EX) W(n) = W(n/2) + n , n>=2, n= 2^k, k>=1, W(1)=1 일 때, W(n) 을 구하시오. (반복대입법을 사용하시오) 
+EX) W(n) = W(n/2) + n , n>=2, n= 2^k, k>=1, W(1)=1 일 때, W(n) 을 구하시오. (substitution을 사용하시오) 
+
+			

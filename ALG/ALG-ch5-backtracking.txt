@@ -1,0 +1,123 @@
+< Greedy 뒷부분 > 
+
+x2와x3를 연결하는 포인터는 카운트하지 않는다. 
+
+마찬가지로 연결하는 건 카운트 안하고, 반복될수록  파인드 횟수가 
+늘어나니까 나중에는   n-2번 
+비효율적. 다른 알고리즘 사용 
+
+Weighting union 
+노드 수를 활용한 
+
+Path compression 
+파인드를 수행할 때의 올라가는 노드들을 동일한 레벨의 노드들로 구성 
+
+union3,8 은 find3을 포함하게 되니까 find3을 path compression 으로 올리게 되는 것 
+♨️ th) tree구조에 따른 모양을 그리시오
+
+Kruskal에서 위의 알고리즘과 자료구조를 쓰면 더 효율적으로 바뀔 수 있다고 말 했었지? 근데 그래도 이게 mlgm보다 작아서 최종적으로 결정적이지는 못한 점이 있긴함 
+- - - 
+< Back tracking > 
+검색이 중단되어 다시 돌아오는 것 
+수를 두다가 어 이럼 안되는데 하며 돌아오는 것, 바둑처럼 
+ex. 미로탈출
+
+Tree Traversal 
+	Preorder 
+		막대를 왼쪽으로 두어 순서대로 만나는 막대순서로 생각하면 됨 
+		이건 깊이우선탐색이기도 함 
+		본인을 가장 앞에 둠 : 자신-좌-우
+	Inorder 
+		좌-자신-우
+	postorder
+		좌-우-자신
+	level order 
+
+DFS(Depth First Search) (= preorder )
+
+4-Queen 문제 
+	무작정으로 풀면 => State Space Tree 만들어짐 
+		순서가 중요한 의미를 가지므로 oerdered tuple 
+ 		다 방문할 필요없음 
+			-> 해의 공간 감소 가능 
+			-> DFS 로 찾을 수 있지만 다 검색하는 건 비효율적 	
+	backtracking 
+		해답 가능성 X -> 유망하지 않다 (non-promising)
+		otherwise -> 유망하다 (promising)
+		유망하지 않으면 backtrack 
+			즉, 그 가지는 pruning -> pruned state space tree 
+			
+	즉, 되추적방법으로 풀면 state space tree에서 non promising 한 가지들은
+	 pruning 을 거치면서 잘라내서 pruned state space tree 를 만듦. 
+	그 과정에서 첫번째 solution을 만나면 return 
+
+	DFS에 비해 backtracking 을 쓰면 해공간을 엄청 줄일 수 있음 
+	155 vs 27 
+
+	expand algorithm 
+		child node u of v 에 대해 
+			1) promising 검사 먼저 하고 
+			2) promising 하면 expand 함 
+			-> 방문하는 노드 수가 더 적어져서 더욱 효율적 
+		(일반 backtracking은 방문한 뒤에 유망성 검사를 함)
+
+n-Queens 문제 
+	4개 -> n개로 확장 (n by n 체스판) 
+	같은 행, 같은 열, 같은 대각선에 위치하지 않아야 함. (위협하지 않아야 함)
+	pseudo code 
+		queens 함수에서 promising하지 않으면 그 위의 node로 올라간다?
+		>>> 만약 promising하지 않다면 queens라는 함수는 종료되서 그 전단계로 올라감.
+		= backtracking이 promising이 종료되며 일어남. 
+	
+		promising 함수에서는 
+			switch를 true로 두고, 
+				같은 열에 있거나 OR 대각에 위치한 queen이 있는지를 확인 
+					switch = false 
+			return false  
+	- 분석1 
+	   최대크기 :
+		총 n 층이 있는데 각 층별로 1, n, n^2 ,,,, n^n 개 씩이 필요하니까 총 필요한 공간은 
+		1+ n + ... = (n^(n+1)-1) /n-1
+		그러나 이런 상한, 의미 없어. 이론적인 값일 뿐. 
+		되추적하면 더 적어지는데, 그걸 이런 상한으로 알 수는 없음 
+	- 분석2
+		제한조건 둬 보기 : 같은 열에 있을 수 없다 
+		층이 진전되면서 놓을 수 있는 space가 -1씩 감소함 
+		따라서 1+n+n(n-1)+ .. .+ n! 이런식으로 진행됨. => 아직 큼 , 그래도 이전보단 작음 
+	- 분석1, 2는 아직까지 유망하지 않은 노드들이 더 많음. 대각은 고려하지 않았기 때문에 
+	  실제로 세어보는 것이 방법인데, 이는 분석방법이 아님. 
+	  분석방법은 알고리즘을 돌려보지 않고도 알 수 있어야 함 
+
+	illustration 
+		
+	for all solution => 해가 나온 뒤에도 끝까지 수행했다는 의미 
+	
+	4x4 에서 4 Queens 문제에서 queen이 1~16 사이에 들어갈 수 있다고 한다면 
+	차지하는 공간은 더 커지게 됨. 제약조건이 있더라도 그 공간이 더 커짐 ㅠ 
+	따라서 어떻게 공간을 구성하냐에 따라 메모리가 더 많이 필요  
+	
+바둑게임에 되추적 적용 가능? 
+	19*19 
+	분석1 => 마지막 층에서 361^361 
+	분석2 => 마지막 층에서 361! 
+	
+	
+	
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
